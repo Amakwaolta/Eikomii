@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【完全網羅版】英語定期テスト対策・最強暗記アプリ (Unit 5 / 6 / 7)</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --primary: #2b6cb0;
+            --primary-light: #ebf8ff;
+            --word-color: #e53e3e;
+            --word-light: #fed7d7;
+            --grammar-color: #319795;
+            --grammar-light: #e6fffa;
+            --idiom-color: #d69e2e;
+            --idiom-light: #fefcbf;
+            --sentence-color: #4a5568;
+            --sentence-light: #edf2f7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .app-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .mode-tabs {
+            display: flex;
+            background-color: #edf2f7;
+            padding: 6px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background-color: white;
+            color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .filter-panel {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e2e8f0;
+        }
+
+        .filter-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .filter-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 150px));
+            gap: 8px;
+        }
+
+        .filter-btn {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .filter-btn.active { color: white; }
+        .filter-btn[data-type="all"].active { background-color: var(--primary); border-color: var(--primary); }
+        .filter-btn[data-type="word"].active { background-color: var(--word-color); border-color: var(--word-color); }
+        .filter-btn[data-type="sentence"].active { background-color: var(--sentence-color); border-color: var(--sentence-color); }
+        .filter-btn[data-type="grammar"].active { background-color: var(--grammar-color); border-color: var(--grammar-color); }
+        .filter-btn[data-type="idiom"].active { background-color: var(--idiom-color); border-color: var(--idiom-color); }
+
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .unit-header {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1a365d;
+            margin: 20px 0 5px 0;
+            padding-left: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .anki-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-left: 6px solid #cbd5e0;
+        }
+
+        .anki-card[data-type="word"] { border-left-color: var(--word-color); }
+        .anki-card[data-type="sentence"] { border-left-color: var(--sentence-color); }
+        .anki-card[data-type="grammar"] { border-left-color: var(--grammar-color); }
+        .anki-card[data-type="idiom"] { border-left-color: var(--idiom-color); }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .anki-card[data-type="word"] .badge { background-color: var(--word-light); color: var(--word-color); }
+        .anki-card[data-type="sentence"] .badge { background-color: var(--sentence-light); color: var(--sentence-color); }
+        .anki-card[data-type="grammar"] .badge { background-color: var(--grammar-light); color: var(--grammar-color); }
+        .anki-card[data-type="idiom"] .badge { background-color: var(--idiom-light); color: var(--idiom-color); }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a202c;
+            margin: 10px 0;
+        }
+
+        .toggle-btn {
+            width: 100%;
+            background-color: #f7fafc;
+            border: 1px dashed #cbd5e0;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .answer-area {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #edf2f7;
+        }
+
+        .answer-main {
+            font-size: 15px;
+            font-weight: 700;
+            color: #c53030;
+            background-color: #fffaf0;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border-left: 4px solid #dd6b20;
+            margin-bottom: 12px;
+        }
+
+        .details-box {
+            background-color: #f7fafc;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+        }
+
+        .label { font-weight: 700; color: var(--primary); }
+
+        .quiz-view {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: var(--text-muted);
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .quiz-feedback {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+        }
+        .feedback-correct { background-color: #c6f6d5; color: #22543d; }
+        .feedback-wrong { background-color: #fed7d7; color: #742a2a; }
+
+        .next-btn {
+            margin-top: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .batch-controls { display: flex; gap: 10px; margin-bottom: 15px; }
+        .batch-btn { background-color: #edf2f7; border: 1px solid #cbd5e0; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header>
+            <h1>英語定期テスト 完全攻略暗記アプリ</h1>
+            <p>【Unit 5 / Unit 6 / Unit 7】 全文・全和訳・全単語・全構文・全イディオム完全網羅</p>
+        </header>
+
+        <div class="mode-tabs">
+            <button class="tab-btn active" onclick="switchMode('card')">🗂 カード暗記モード</button>
+            <button class="tab-btn" onclick="switchMode('quiz')">✍️ 四択演習モード</button>
+        </div>
+
+        <div id="card-mode-view">
+            <div class="filter-panel">
+                <div class="filter-title">🔍 表示ジャンルを絞り込む:</div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-type="all" onclick="filterType('all')">🌟 全て網羅</button>
+                    <button class="filter-btn" data-type="word" onclick="filterType('word')">📕 単語</button>
+                    <button class="filter-btn" data-type="sentence" onclick="filterType('sentence')">📘 全文・和訳</button>
+                    <button class="filter-btn" data-type="grammar" onclick="filterType('grammar')">💚 構文・文法</button>
+                    <button class="filter-btn" data-type="idiom" onclick="filterType('idiom')">📙 イディオム</button>
+                </div>
+            </div>
+
+            <div class="batch-controls">
+                <button class="batch-btn" onclick="toggleAllAnswers(true)">👀 すべての解答を表示</button>
+                <button class="batch-btn" onclick="toggleAllAnswers(false)">🙈 すべての解答を隠す</button>
+            </div>
+
+            <div class="card-container" id="card-list-target"></div>
+        </div>
+
+        <div id="quiz-mode-view" class="quiz-view">
+            <div class="quiz-header">
+                <span id="quiz-progress">Question 1 / --</span>
+                <span id="quiz-score">Score: 0</span>
+            </div>
+            <div class="quiz-q-text" id="quiz-question-box"></div>
+            <div class="quiz-options" id="quiz-options-box"></div>
+            <div class="quiz-feedback" id="quiz-feedback-box"></div>
+            <button class="next-btn" id="quiz-next-btn" onclick="nextQuiz()">次の問題へ 👉</button>
+        </div>
+    </div>
+
+    <script>
+        const database = [
+            // ==================== UNIT 5 ====================
+            { id: "U5-S1", unit: 5, type: "sentence", q: "Emil Zatopek was born in Czechoslovakia in 1922.", a: "エミール・ザトペックは1922年にチェコスロバキアで生まれた。", note: "was born in: 〜で生まれた（過去形受動態の基本表現）。" },
+            { id: "U5-S2", unit: 5, type: "sentence", q: "At the age of 16 he went to work in a factory.", a: "16歳のとき、彼は工場で働き始めた。", note: "went to work: 働きに行った、働き始めた。" },
+            { id: "U5-S3", unit: 5, type: "sentence", q: "At the time, he had no interest in running, but on one occasion he was picked to join a race.", a: "当時、彼は走ることに全く興味がなかったが、ある機会にレースに参加するよう選ばれた。", note: "過去形の並列。butによって2つの節が結ばれている。" },
+            { id: "U5-S4", unit: 5, type: "sentence", q: "Although he said he was unfit, he was forced into the race and ended up coming in second.", a: "彼は自分が不向きだと言ったが、レースに参加させられ、結局2位になった。", note: "Althoughの譲歩節内にはthatが省略された名詞節(he was unfit)がある。" },
+            { id: "U5-S5", unit: 5, type: "sentence", q: "This started his interest in running, and within a few years he was representing Czechoslovakia in athletic competitions.", a: "これがきっかけで彼は走ることに興味を持ち、数年もしないうちに陸上競技の大会でチェコスロバキアを代表するようになった。", note: "was representing: 過去進行形。" },
+            { id: "U5-S6", unit: 5, type: "sentence", q: "In 1952, Emil Zatopek achieved one of the greatest Olympic accomplishments of all time — winning triple gold medals in long-distance running events remains an unprecedented achievement.", a: "1952年、エミール・ザトペックは史上最も偉大なオリンピックの偉業の1つを達成した。長距離走種目で3つの金メダルを獲得したことは、今なお前例のない偉業である。", note: "ダッシュ(—)以降は同格の補足説明。winning以下の動名詞句がremainsの主語。" },
+            { id: "U5-S7", unit: 5, type: "sentence", q: "His running style was often criticized for being gangly, inefficient and unattractive.", a: "彼の走るスタイルは、ひょろ長くて非効率的、側で見栄えが悪いとしばしば批判された。", note: "was criticized for ~: 〜の理由で批判された（受動態）。" },
+            { id: "U5-S8", unit: 5, type: "sentence", q: "Clarke said later, 'It's my only Olympic gold medal. I cherish this gift more than anything else, not because it's a gold medal but because it represents his spirit.'", a: "クラークは後にこう語った。「それは私にとって唯一のオリンピック金メダルです。私はこの贈り物を他の何よりも大切にしています。金メダルだからではなく、彼の精神を表しているからです。」", note: "not because A but because B: AだからではなくBだから。" },
+            
+            { id: "U5-W1", unit: 5, type: "word", q: "accomplishment", a: "【名詞】偉業、達成、成就", note: "動詞形はaccomplish（〜を達成する）。" },
+            { id: "U5-W2", unit: 5, type: "word", q: "unprecedented", a: "【形容詞】前例のない、かつてない", note: "un(不) + precede(先行する) + ent(名詞・形容詞語尾) + ed。" },
+            { id: "U5-W3", unit: 5, type: "word", q: "gangly", a: "【形容詞】ひょろ長い、不格好な", note: "彼の走型スタイルを形容する表現として批判的に使われた。" },
+            { id: "U5-W4", unit: 5, type: "word", q: "inefficient", a: "【形容詞】非効率的な、無駄のある", note: "efficient（効率的な）の頭に否定のin-がついた形。" },
+            { id: "U5-W5", unit: 5, type: "word", q: "cherish", a: "【動詞】〜を大切にする、心に抱く", note: "value highly or treat with careと同義。" },
+            
+            { id: "U5-G1", unit: 5, type: "grammar", q: "at the age of ~", a: "【構文】〜の年齢で、〜歳の時に", note: "At the age of 16 ＝ When he was 16 と書き換え可能。" },
+            { id: "U5-G2", unit: 5, type: "grammar", q: "not because A but because B", a: "【構文】Aだからではなく、Bだから", note: "理由の副詞節を強く対比させる重要相関接続詞表現。" },
+            
+            { id: "U5-I1", unit: 5, type: "idiom", q: "have no interest in ~", a: "【イディオム】〜に全く興味がない", note: "not have any interest in ~ と同義。" },
+            { id: "U5-I2", unit: 5, type: "idiom", q: "be forced into ~", a: "【イディオム】〜を強制される、無理やり〜させられる", note: "force O into 名詞 の受動態形。" },
+            { id: "U5-I3", unit: 5, type: "idiom", q: "end up doing", a: "【イディオム】結局（最後には）〜することになる", note: "予期しない結末によく用いる。" },
+
+            // ==================== UNIT 6 ====================
+            { id: "U6-S1", unit: 6, type: "sentence", q: "One of the most famous words in the history of English language studies is 'eggs'.", a: "英語学の歴史において最も有名な言葉の1つが「eggs(卵)」である。", note: "One of + 複数名詞(words) が主語なので単数扱い。" },
+            { id: "U6-S2", unit: 6, type: "sentence", q: "It's all because of William Caxton, who introduced printing to England in 1476.", a: "それはすべて、1476年にイングランドに印刷術を導入したウィリアム・キャクストンのおかげである。", note: "カンマ+whoは関係代名詞の非限定用法。" },
+            { id: "U6-S3", unit: 6, type: "sentence", q: "Caxton was faced with a real problem. For hundreds of years, English had been written by scribes from different parts of the country.", a: "キャクストンは深刻な問題に直面していた。何百年もの間、英語は国のさまざまな地域の写本記者によって書かれていた。", note: "had been written は過去完了形の受動態。" },
+            { id: "U6-S4", unit: 6, type: "sentence", q: "There was a huge variation in the way words were spelled — 'might' appears in manuscripts in over thirty different spellings.", a: "単語の綴り方には膨大なバリエーションがあった。たとえば「might」は、写本の中に30以上の異なる綴りで登場する。", note: "in the way [S V]: SがVする方法。" },
+            { id: "U6-S5", unit: 6, type: "sentence", q: "In the preface to one of the books Caxton printed, he tells a story he had heard about sailors who were becalmed in the Thames.", a: "キャクストンが印刷した本の一つの序文で、彼はテムズ川で風が止まって動けなくなった船乗りたちについて聞いた話を語っている。", note: "複数の関係代名詞の省略構造。" },
+            { id: "U6-S6", unit: 6, type: "sentence", q: "Eventually, as we now know, 'eyren' died out and 'eggs' became the word in everyday use.", a: "最終的に、私たちが今知っているように、「eyren」は廃れ、「eggs」が日常的に使われる言葉になった。", note: "as we now know: 挿入節（私たちが知っている通り）。" },
+
+            { id: "U6-W1", unit: 6, type: "word", q: "scribe", a: "【名詞】写本記者、筆記者", note: "手で文字をコピーしていた専門職。" },
+            { id: "U6-W2", unit: 6, type: "word", q: "variation", a: "【名詞】変異、差異、バリエーション", note: "動詞形はvary。" },
+            { id: "U6-W3", unit: 6, type: "word", q: "manuscript", a: "【名詞】写本、原稿", note: "manu(手) + script(書かれたもの)。" },
+            { id: "U6-W4", unit: 6, type: "word", q: "preface", a: "【名詞】序文、前置き", note: "巻頭の説明。" },
+            { id: "U6-W5", unit: 6, type: "word", q: "becalmed", a: "【形容詞】無風状態で動けない", note: "be- + calm。" },
+
+            { id: "U6-G1", unit: 6, type: "grammar", q: "who (非限定用法)", a: "【構文】カンマ＋関係代名詞（そしてその人は〜）", note: "and heなどに分解可能。" },
+            { id: "U6-G2", unit: 6, type: "grammar", q: "in the way S + V", a: "【構文】SがVする方法において", note: "関係副詞howの代用となるthat等の省略形。" },
+
+            { id: "U6-I1", unit: 6, type: "idiom", q: "be faced with ~", a: "【イディオム】〜に直面している", note: "face ~ （能動態）に書き換え可。" },
+            { id: "U6-I2", unit: 6, type: "idiom", q: "die out", a: "【イディオム】絶滅する、すっかり廃れる", note: "完全消滅。" },
+
+            // ==================== UNIT 7 ====================
+            { id: "U7-S1", unit: 7, type: "sentence", q: "Animal shelters in the United States are doing a much better job of finding good homes for animals in their care.", a: "アメリカ合衆国の動物保護施設は、保護下にある動物たちのために良い引き取り先を見つけるという仕事を、以前よりずっとうまくこなしている。", note: "muchは比較級betterの強調。in their care: 保護下にある。" },
+            { id: "U7-S2", unit: 7, type: "sentence", q: "Back in the 1970s, shelters put to death as many as 12 to 20 million dogs and cats each year for lack of homes.", a: "1970年代には、引き取り先がないために、施設は毎年1,200万から2,000万匹もの犬や猫を安楽死させていた。", note: "put to death: 安楽死させる。for lack of: 〜の不足のために。" },
+            { id: "U7-S3", unit: 7, type: "sentence", q: "Fortunately, today those numbers have declined by more than 75 percent. But for elderly pets, it's still extremely difficult to find a new home.", a: "幸いなことに、今日ではそれらの数値は75パーセント以上減少している。しかし、年老いたペットにとって、新しい家を見つけることは依然として極めて困難である。", note: "byは差分のby。後半は It...to 形式主語構文。" },
+            { id: "U7-S4", unit: 7, type: "sentence", q: "There are many benefits to adopting a pet with 'history.' Older pets usually are more gentle, relaxed and easy to care for than younger ones.", a: "「歴史（背景）」のあるペットを育てることには多くのメリットがある。年老いたペットは通常、若いペットよりも穏やかで世話がしやすい。", note: "benefits to の to は前置詞。easy to care for のfor落とし注意。" },
+            { id: "U7-S5", unit: 7, type: "sentence", q: "Additionally, with a puppy there's no way of knowing how big that tiny creature is going to become, let alone the true nature of his or her personality.", a: "さらに、子犬の場合、その小さな生き物がどれほど大きく成長するのかを知る術はなく、その子の本当の性格の性質は言うまでもない。", note: "how big 節内は間接疑問文の語順。let alone は否定の後置。" },
+            { id: "U7-S6", unit: 7, type: "sentence", q: "Remember the old saying, 'you can't teach an old dog new tricks.' It's a myth. An older pet can learn anything that a younger one can.", a: "「老犬に新しい芸を教えることはできない」という古いことわざを思い出してほしい。それは作り話だ。年老いたペットは、若いペットができることなら何でも学ぶことができる。", note: "myth: 誤った通説。" },
+            { id: "U7-S7", unit: 7, type: "sentence", q: "It doesn't take a math wizard to see that placing all of the adoptable pets into new homes is not an impossible task.", a: "すべての引き取り可能なペットを新しい家に配置することが不可能な課題ではないと理解するのに、数学の天才である必要はない。", note: "It takes 人 to do 構文の応用。" },
+
+            { id: "U7-W1", unit: 7, type: "word", q: "decline", a: "【動詞】減少する、低下する / 辞退する", note: "本文では自動詞「減少する」" },
+            { id: "U7-W2", unit: 7, type: "word", q: "creature", a: "【名詞】生き物、動物", note: "createから派生。" },
+            { id: "U7-W3", unit: 7, type: "word", q: "myth", a: "【名詞】作り話、誤った社会的通念", note: "試験最頻出。" },
+            { id: "U7-W4", unit: 7, type: "word", q: "wizard", a: "【名詞】天才、達人", note: "math wizard で数学の達人。" },
+            { id: "U7-W5", unit: 7, type: "word", q: "adoptable", a: "【形容詞】引き取り可能な", note: "adopt + able。" },
+
+            { id: "U7-G1", unit: 7, type: "grammar", q: "It takes + 人・物 + to do ~", a: "【構文】〜するのに（人・物が）必要である", note: "必要条件を示す最重要構文。" },
+            { id: "U7-G2", unit: 7, type: "grammar", q: "easy to care for", a: "【構文】〜するのが簡単である/世話がしやすい", note: "目的語が主語に移動した特殊構造。" },
+
+            { id: "U7-I1", unit: 7, type: "idiom", q: "do a good job of doing", a: "【イディオム】〜という仕事をうまくこなす", note: "適切に行うという意味。" },
+            { id: "U7-I2", unit: 7, type: "idiom", q: "put to death", a: "【イディオム】安楽死させる、死刑にする", note: "婉曲表現。" },
+            { id: "U7-I3", unit: 7, type: "idiom", q: "for lack of ~", a: "【イディオム】〜の不足のために", note: "原因・理由。" },
+            { id: "U7-I4", unit: 7, type: "idiom", q: "there's no way of doing", a: "【イディオム】〜する方法がない", note: "不可能の表現。" },
+            { id: "U7-I5", unit: 7, type: "idiom", q: "let alone ~", a: "【イディオム】〜は言うまでもなく", note: "否定表現を後ろから強調。" }
+        ];
+
+        function generateCards() {
+            const container = document.getElementById('card-list-target');
+            container.innerHTML = '';
+            let currentUnit = 0;
+
+            database.forEach(item => {
+                if (item.unit !== currentUnit) {
+                    currentUnit = item.unit;
+                    const unitTitle = document.createElement('div');
+                    unitTitle.className = 'unit-header';
+                    unitTitle.innerText = `📍 Unit ${currentUnit} 完全攻略セクション`;
+                    container.appendChild(unitTitle);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'anki-card';
+                card.setAttribute('data-type', item.type);
+                card.id = `card-${item.id}`;
+
+                let typeLabel = '';
+                if(item.type === 'word') typeLabel = '📕 単語';
+                if(item.type === 'sentence') typeLabel = '📘 全文・全訳';
+                if(item.type === 'grammar') typeLabel = '💚 構文・文法';
+                if(item.type === 'idiom') typeLabel = '📙 イディオム';
+
+                card.innerHTML = `
+                    <div class="card-meta">
+                        <span class="badge">${typeLabel}</span>
+                    </div>
+                    <div class="question-text">${item.q}</div>
+                    <button class="toggle-btn" onclick="toggleCardAnswer('${item.id}')">👉 タップして解答・分析をチェック</button>
+                    <div class="answer-area" id="ans-${item.id}">
+                        <div class="answer-main">${item.a}</div>
+                        <div class="details-box">
+                            <strong>【分析・狙い点】</strong> ${item.note}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleCardAnswer(id) {
+            const target = document.getElementById(`ans-${id}`);
+            target.style.display = (target.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function toggleAllAnswers(show) {
+            const areas = document.getElementsByClassName('answer-area');
+            for(let area of areas) { area.style.display = show ? 'block' : 'none'; }
+        }
+
+        function filterType(type) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.getElementsByClassName('anki-card');
+            for(let card of cards) {
+                card.style.display = (type === 'all' || card.getAttribute('data-type') === type) ? 'block' : 'none';
+            }
+        }
+
+        function switchMode(mode) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if(mode === 'card') {
+                document.getElementById('card-mode-view').style.display = 'block';
+                document.getElementById('quiz-mode-view').style.display = 'none';
+            } else {
+                document.getElementById('card-mode-view').style.display = 'none';
+                document.getElementById('quiz-mode-view').style.display = 'block';
+                startQuizMode();
+            }
+        }
+
+        let quizIndex = 0; let quizScore = 0; let currentQuizData = [];
+
+        function startQuizMode() {
+            quizIndex = 0; quizScore = 0;
+            currentQuizData = [...database].sort(() => 0.5 - Math.random());
+            showQuiz();
+        }
+
+        function showQuiz() {
+            if(quizIndex >= currentQuizData.length) {
+                document.getElementById('quiz-question-box').innerText = `🎉 終了！ スコア: ${quizScore} / ${currentQuizData.length}`;
+                document.getElementById('quiz-options-box').innerHTML = '';
+                document.getElementById('quiz-next-btn').style.display = 'none';
+                return;
+            }
+
+            const current = currentQuizData[quizIndex];
+            document.getElementById('quiz-progress').innerText = `Question ${quizIndex + 1} / ${currentQuizData.length}`;
+            document.getElementById('quiz-score').innerText = `Score: ${quizScore}`;
+            document.getElementById('quiz-question-box').innerText = `【問題】次に対する正しい意味・訳を選択:\n\n「 ${current.q} 」`;
+            
+            let options = [current.a];
+            while(options.length < 4) {
+                let r = database[Math.floor(Math.random() * database.length)].a;
+                if(!options.includes(r)) options.push(r);
+            }
+            options.sort(() => 0.5 - Math.random());
+
+            const box = document.getElementById('quiz-options-box');
+            box.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleOptionClick(opt, current.a, btn);
+                box.appendChild(btn);
+            });
+
+            document.getElementById('quiz-feedback-box').style.display = 'none';
+            document.getElementById('quiz-next-btn').style.display = 'none';
+        }
+
+        function handleOptionClick(selected, correct, clickedBtn) {
+            const fb = document.getElementById('quiz-feedback-box');
+            fb.style.display = 'block';
+            document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
+            if(selected === correct) {
+                fb.className = 'quiz-feedback feedback-correct'; fb.innerText = '⭕ 正解！';
+                clickedBtn.style.backgroundColor = '#c6f6d5'; quizScore++;
+            } else {
+                fb.className = 'quiz-feedback feedback-wrong'; fb.innerText = `❌ 不正解！正解: ${correct}`;
+                clickedBtn.style.backgroundColor = '#fed7d7';
+            }
+            document.getElementById('quiz-next-btn').style.display = 'inline-block';
+        }
+
+        function nextQuiz() { quizIndex++; showQuiz(); }
+        window.onload = () => { generateCards(); };
+    </script>
+</body>
+</html>
